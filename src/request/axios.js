@@ -1,8 +1,7 @@
 import axios from "axios";
 import cookie from "js-cookie"
 
-axios.defaults.baseURL = "http://9f8swf.natappfree.cc/"
-//axios.defaults.baseURL = "http://localhost:7878/"
+axios.defaults.baseURL = "http://localhost:8080/"
 axios.interceptors.request.use((config) => {
 
     if (cookie.get("token") != null) {

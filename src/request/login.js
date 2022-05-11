@@ -9,13 +9,4 @@ export default {
             data
         })
     },
-    // admin登录
-    adminLogin: (data) => {
-        return axios({
-            method: "post",
-            url: "admin/login",
-            data
-        })
-    },
-
 }
