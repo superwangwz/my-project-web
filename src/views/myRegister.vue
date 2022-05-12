@@ -24,18 +24,14 @@
               autocomplete="off"
             ></el-input>
           </el-form-item>
-          <el-form-item label="加密类型" prop="type">
-            <el-radio-group v-model="ruleForm.type">
-              <el-radio label="ZUC"></el-radio>
-              <el-radio label="SM2"></el-radio>
-              <el-radio label="SM3"></el-radio>
-            </el-radio-group>
+          <el-form-item label="确认密码" prop="checkPass">
+              <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')"
               >注册</el-button
             >
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
+            <el-button @click="goLogin()">去登陆</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -62,23 +58,23 @@ export default {
         return callback();
       }
     };
-    var type = (rule, value, callback) => {
+     var checkPass = (rule, value, callback) => {
       if (value === "") {
-        return callback(new Error("加密类型不能为空"));
-      } else {
-        return callback();
+        callback(new Error("请输入再次输入密码"));
+      } else if(value !== this.ruleForm.passWord){
+         callback(new Error("两次密码不一致！"));
       }
     };
     return {
       ruleForm: {
         userName: "",
         passWord: "",
-        type: "",
+        checkPass: "",
       },
       rules: {
         userName: [{ validator: userName, trigger: "blur" }],
         passWord: [{ validator: passWord, trigger: "blur" }],
-        type: [{ validator: type, trigger: "blur" }],
+        checkPass: [{ validator: checkPass, trigger: "blur" }],
       },
     };
   },
@@ -92,7 +88,6 @@ export default {
             .addUser({
               userName: this.ruleForm.userName,
               passWord: this.ruleForm.passWord,
-              type: this.ruleForm.type,
             })
             .then((res) => {
               if (res.data.success == true) {
@@ -110,8 +105,8 @@ export default {
     },
 
     // 清空表单数据
-    resetForm() {
-      this.$refs.ruleForm.resetFields();
+    goLogin() {
+      this.$router.go(-1);
     },
   },
 };
