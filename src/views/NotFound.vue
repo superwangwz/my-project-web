@@ -1,6 +1,6 @@
 <template>
   <div class="notfound">
-    <el-button @click="gotohome" icon="el-icon-s-home">回到首页</el-button>
+    
   </div>
 </template>
 

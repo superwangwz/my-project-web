@@ -3,14 +3,14 @@
     <div class="login-right">
       <!-- 登录 -->
       <div class="loginBox">
-        <h2 class="title">账号登录</h2>
+        <h2 class="title">加密算法系统</h2>
            <div class="tab">
           <div
             class="tab-item"
             :class="activeIndex == 1 ? 'active' : ''"
             @click="handleSelect(1)"
           >
-            登录
+            账号密码登陆
           </div>        
         </div>
         <el-form
@@ -22,20 +22,19 @@
           class="demo-ruleForm"
           active-text-color="#fff"
         >
-          <el-form-item label="账号" prop="username">
-            <el-input v-model="ruleForm.username"></el-input>
+          <el-form-item label="账号" prop="userName">
+            <el-input v-model="ruleForm.userName"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="passWord">
             <el-input
-              type="password"
-              v-model="ruleForm.pass"
+              type="passWord"
+              v-model="ruleForm.passWord"
               autocomplete="off"
             ></el-input>
           </el-form-item>
-          <el-form-item v-if="activeIndex == '1'">
-            <el-button type="primary" @click="submitForm1('ruleForm')"
-              >登录</el-button
-            >
+          <el-form-item >
+            <el-button type="primary" @click="submitForm1('ruleForm')">登录</el-button>
+            <el-button @click="register()">注册</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -49,14 +48,14 @@ import cookie from "js-cookie";
 export default {
   data() {
     // 登录验证规则
-    var username = (rule, value, callback) => {
+    var userName = (rule, value, callback) => {
       if (value === "") {
         return callback(new Error("账号不能为空"));
       } else {
         return callback();
       }
     };
-    var pass = (rule, value, callback) => {
+    var passWord = (rule, value, callback) => {
       if (value === "") {
         return callback(new Error("密码不能为空"));
       } else {
@@ -66,12 +65,12 @@ export default {
     return {
       activeIndex: "1",
       ruleForm: {
-        username: "",
-        pass: "",
+        userName: "",
+        passWord: "",
       },
       rules: {
-        username: [{ validator: username, trigger: "blur" }],
-        pass: [{ validator: pass, trigger: "blur" }],
+        userName: [{ validator: userName, trigger: "blur" }],
+        passWord: [{ validator: passWord, trigger: "blur" }],
       },
     };
   },
@@ -81,15 +80,19 @@ export default {
     handleSelect(index) {
       this.activeIndex = index;
     },
+    // 注册
+    register (){
+      this.$router.push('/register')
     },
+
     // 用户登录
     submitForm1(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           loginRequest
             .userLogin({
-              userName: this.ruleForm.username,
-              passWord: this.ruleForm.pass,
+              userName: this.ruleForm.userName,
+              passWord: this.ruleForm.passWord,
             })
             .then((res) => {
               console.log(res);
@@ -117,6 +120,8 @@ export default {
         }
       });
     },
+
+  },
 };
 </script>
 

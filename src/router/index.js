@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import myLogin from '../views/myLogin.vue'
 import NotFound from '../views/NotFound.vue'
+import myRegister from '../views/myRegister'
 
 Vue.use(VueRouter)
 //路由
@@ -13,6 +14,15 @@ const routes = [
     meta: {
       title: "登录",
     }
+  },
+
+  {
+    path: "/register",
+    name: 'register',
+    component: myRegister,
+    meta: {
+      title: "注册"
+    },
   },
 
   {
