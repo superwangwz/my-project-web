@@ -4,14 +4,14 @@
       <!-- 登录 -->
       <div class="loginBox">
         <h2 class="title">加密算法系统</h2>
-           <div class="tab">
+        <div class="tab">
           <div
             class="tab-item"
             :class="activeIndex == 1 ? 'active' : ''"
             @click="handleSelect(1)"
           >
             账号密码登陆
-          </div>        
+          </div>
         </div>
         <el-form
           :model="ruleForm"
@@ -32,8 +32,10 @@
               autocomplete="off"
             ></el-input>
           </el-form-item>
-          <el-form-item >
-            <el-button type="primary" @click="submitForm1('ruleForm')">登录</el-button>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm1('ruleForm')"
+              >登录</el-button
+            >
             <el-button @click="register()">注册</el-button>
           </el-form-item>
         </el-form>
@@ -63,6 +65,8 @@ export default {
       }
     };
     return {
+      realName: "",
+      userinfo: null,
       activeIndex: "1",
       ruleForm: {
         userName: "",
@@ -81,8 +85,8 @@ export default {
       this.activeIndex = index;
     },
     // 注册
-    register (){
-      this.$router.push('/register')
+    register() {
+      this.$router.push("/register");
     },
 
     // 用户登录
@@ -106,10 +110,10 @@ export default {
                   JSON.stringify(userinfo)
                 );
                 this.$notify({
-                  title: "欢迎回来，" + this.ruleForm.username,
+                  title: "欢迎回来，" + this.realName,
                   type: "success",
                 });
-                this.$router.push({ path: "/userhome" });
+                this.$router.push({ path: "/myHome" });
               } else {
                 this.$message.error(res.data.message);
               }
@@ -120,7 +124,14 @@ export default {
         }
       });
     },
+  },
 
+  created() {
+    this.userinfo = JSON.parse(window.localStorage.getItem("userinfo"));
+    if (this.userinfo) {
+      this.realName = this.userinfo.realName;
+    }
+    console.log(this.userinfo);
   },
 };
 </script>

@@ -6,7 +6,7 @@ export default {
     addUser: (data) => {
         return axios({
             method: "post",
-            url: "",
+            url: "/user/addOrUpdate",
             data
         })
     },

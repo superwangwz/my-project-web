@@ -17,6 +17,9 @@
           <el-form-item label="账号" prop="userName">
             <el-input v-model="ruleForm.userName"></el-input>
           </el-form-item>
+          <el-form-item label="真实姓名" prop="realName">
+            <el-input v-model="ruleForm.realName"></el-input>
+          </el-form-item>
           <el-form-item label="密码" prop="passWord">
             <el-input
               type="passWord"
@@ -25,7 +28,11 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="确认密码" prop="checkPass">
-              <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+            <el-input
+              type="password"
+              v-model="ruleForm.checkPass"
+              autocomplete="off"
+            ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('ruleForm')"
@@ -46,33 +53,49 @@ export default {
     // 登录验证规则
     var userName = (rule, value, callback) => {
       if (value === "") {
-        return callback(new Error("账号不能为空"));
+         callback(new Error("账号不能为空"));
       } else {
-        return callback();
+         callback();
       }
     };
-    var passWord = (rule, value, callback) => {
+    var realName = (rule, value, callback) => {
       if (value === "") {
-        return callback(new Error("密码不能为空"));
+         callback(new Error("真实姓名不能为空"));
       } else {
-        return callback();
+         callback();
       }
     };
-     var checkPass = (rule, value, callback) => {
+       var passWord = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (/^[a-z0-9]{5,12}$/.test(value)) {
+          callback();
+        } else {
+          callback(new Error("密码必须为字母开头6-12位数字字母组成"));
+        }
+      }
+    };
+    var checkPass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入再次输入密码"));
       } else if(value !== this.ruleForm.passWord){
          callback(new Error("两次密码不一致！"));
+      }else{
+        callback();
       }
     };
+    
     return {
       ruleForm: {
         userName: "",
+        realName: "",
         passWord: "",
         checkPass: "",
       },
       rules: {
         userName: [{ validator: userName, trigger: "blur" }],
+        realName: [{ validator: realName, trigger: "blur" }],
         passWord: [{ validator: passWord, trigger: "blur" }],
         checkPass: [{ validator: checkPass, trigger: "blur" }],
       },
@@ -82,11 +105,13 @@ export default {
   methods: {
     // 注册
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
+          alert('submit!');
           userRequest
             .addUser({
               userName: this.ruleForm.userName,
+              realName: this.ruleForm.realName,
               passWord: this.ruleForm.passWord,
             })
             .then((res) => {
@@ -98,13 +123,19 @@ export default {
               }
             });
         } else {
+          alert('submit fail !');
           this.$message.error("请检查信息是否完整！");
           return false;
         }
-      });
+      })
     },
 
-    // 清空表单数据
+     // 清空表单数据
+    resetForm() {
+      this.$refs.ruleForm.resetFields();
+    },
+
+    // 返回登录
     goLogin() {
       this.$router.go(-1);
     },
@@ -160,7 +191,7 @@ export default {
 
     .loginBox {
       width: 500px;
-      height: 400px;
+      height: 460px;
       background-color: rgba($color: rgb(12, 11, 11), $alpha: 0.8);
       border-radius: 10px 10px 10px 10px;
       padding-top: 30px;
