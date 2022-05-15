@@ -4,9 +4,9 @@ import cookie from "js-cookie"
 axios.defaults.baseURL = "http://localhost:8080/"
 axios.interceptors.request.use((config) => {
 
-    if (cookie.get("token") != null) {
+    if (cookie.get("satoken") != null) {
         // 在发送请求之前做些什么
-        config.headers.common["token"] = cookie.get("token")
+        config.headers.common["satoken"] = cookie.get("satoken")
     }
 
     return config;

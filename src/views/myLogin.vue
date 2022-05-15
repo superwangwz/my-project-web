@@ -103,7 +103,7 @@ export default {
               if (res.data.success == true) {
                 let userinfo = res.data.result;
                 // 获取token  存储在本地
-                cookie.set("token", userinfo.token);
+                cookie.set("satoken", userinfo.token);
                 // 获取用户信息  存储在本地
                 window.localStorage.setItem(
                   "userinfo",
