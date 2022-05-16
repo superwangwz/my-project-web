@@ -11,16 +11,18 @@
     >
       <el-form-item label="加密类型" prop="sex">
         <el-radio-group v-model="ruleForm.sex">
+          <el-radio label="ZUC"></el-radio>
+          <el-radio label="SM2"></el-radio>
           <el-radio label="SM3"></el-radio>
           <el-radio label="SM4"></el-radio>
         </el-radio-group>
       </el-form-item>
-
       <el-upload
         class="avatar-uploader"
           :headers="headers"
           :action="action"
           :data="data"
+          :on-remove="remove"
           :on-success="success"
           multiple
           :file-list="fileList"
@@ -100,7 +102,12 @@ export default {
     // 清空表单
     resetForm() {
       this.$refs.ruleForm.resetFields();
-    }
+    },
+    remove(file) {
+      console.log(this.data.dataId)
+      userRequest.deleteFile(this.data.dataId)
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      }
   },
 
   created() {}

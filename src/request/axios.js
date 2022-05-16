@@ -1,7 +1,7 @@
 import axios from "axios";
 import cookie from "js-cookie"
 
-axios.defaults.baseURL = "http://localhost:8080/"
+axios.defaults.baseURL = "http://localhost:8081/"
 axios.interceptors.request.use((config) => {
 
     if (cookie.get("satoken") != null) {

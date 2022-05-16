@@ -24,7 +24,6 @@ export default {
         })
     },
 
-    // 删除文件
      // 删除文件
      deleteFile: (id) =>{
         return axios({
