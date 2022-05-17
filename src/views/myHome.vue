@@ -50,21 +50,26 @@
           </el-table-column>
           <el-table-column prop="createTime" label="上传时间" width="180">
           </el-table-column>
-          <el-table-column v-if="type!=null" label="文件状态" width="180">
-              <el-tag type="danger">已加密</el-tag>
+          <el-table-column prop="status" label="文件状态" width="180">
+            <template slot-scope="scope">
+              <el-tag type="danger" v-if="scope.row.status == '1'"
+                >已加密</el-tag>
+                <el-tag type="success" v-if="scope.row.status == '0'"
+                >未加密</el-tag>
+            </template>
           </el-table-column>
           <el-table-column align="right">
             <template slot-scope="scope">
               <el-button
-                v-if="type!=null"
+                v-if="scope.row.status=='1'"
                 type="success"
                 icon="el-icon-unlock"
                 @click="decodeFile(scope.row)"
                 >解密</el-button
               >
               <el-button
-                v-if="type==null"
-                type="success"
+                v-if="scope.row.status=='0'"
+                type="primary"
                 icon="el-icon-download"
                 @click="downFile(scope.row)"
                 >下载</el-button
